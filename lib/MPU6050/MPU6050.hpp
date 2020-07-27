@@ -53,8 +53,10 @@ public:
             val = Wire.read();
         }
 
-        for(int i = 0, j = 0; i < 7; ++i, j+=2){
-            data[i] = data_raw[j] << 8 | data_raw[j + 1];
+        int i = 0;
+        for(auto &val : data){
+            val = data_raw[i] << 8 | data_raw[i + 1];
+            i += 2;
         }
 
         accel = data;
