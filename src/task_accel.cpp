@@ -13,5 +13,13 @@ void TaskAccel(void *pvParameters){
         Serial.println(mpu.getFormated());
 
         delay(200);
+
+        #ifdef FREERTOS_STACKDEBUG
+        UBaseType_t uxHighWaterMark;
+        /* Inspect our own high water mark on entering the task. */
+        uxHighWaterMark = uxTaskGetStackHighWaterMark( NULL );
+        Serial.print("\nFree stack - Task Accel: ");
+        Serial.println(uxHighWaterMark);
+        #endif
     }
 }
