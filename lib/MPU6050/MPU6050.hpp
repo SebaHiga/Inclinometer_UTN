@@ -2,60 +2,13 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <vector.hpp>
 
 class MPU6050{
 private:
     const int MPU_addr=0x68;
     const int16_t LSB_g = 16384;
     
-    template<typename T>
-    struct vect_t{
-        union{
-            struct{
-                T xyz[3];
-            };
-            struct{
-                T x, y, z;
-            };
-        };
-
-        template<typename P>
-        void operator= (const P vec){
-            int i = 0;
-            for(auto &val : xyz){
-                val = (T) vec[i];
-                i++;
-            }
-        }
-
-        T operator[] (size_t index) const {
-            return xyz[index];
-        }
-
-        template<typename P>
-        void operator/= (const P num){
-            int i = 0;
-            for(auto &val : xyz){
-                val = (T) (val / num);
-                i++;
-            }
-        }
-
-        template<typename P>
-        void operator*= (const P num){
-            int i = 0;
-            for(auto &val : xyz){
-                val = (T) (val * num);
-                i++;
-            }
-        }
-
-        float getModule (){
-            return sqrt(x*x + y*y + z*z);
-        }
-
-    };
-
     // define vectors
     vect_t<int16_t> accel;
     vect_t<int16_t> gyro;
@@ -116,7 +69,7 @@ public:
         accel_float = accel;
         accel_float /= LSB_g;
         accel_float *= 10;
-        
+
         Serial.print("\n");
         Serial.print(accel_float.x, 6); Serial.print(", ");
         Serial.print(accel_float.y, 6); Serial.print(", ");
