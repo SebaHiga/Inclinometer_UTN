@@ -6,6 +6,7 @@
 class MPU6050{
 private:
     const int MPU_addr=0x68;
+    const int16_t LSB_g = 16384;
     
     template<typename T>
     struct vect_t{
