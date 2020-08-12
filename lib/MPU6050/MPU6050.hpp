@@ -94,14 +94,33 @@ public:
         Wire.endTransmission(true);
     };
 
-    inline String getFormated(){
+    inline String getFormatted() const{
         String ret;
 
-        ret += accel.x;
-        ret += "\t" + String(accel.y);
-        ret += "\t" + String(accel.z);
+        vect_t<float> accel_float;
+
+        accel_float = accel;
+        accel_float /= LSB_g;
+        accel_float *= 10;
+
+        ret += accel_float.x;
+        ret += "\t" + String(accel_float.y);
+        ret += "\t" + String(accel_float.z);
 
         return ret;
+    }
+
+    inline void printFormatted(void){
+        vect_t<float> accel_float;
+
+        accel_float = accel;
+        accel_float /= LSB_g;
+        accel_float *= 10;
+        
+        Serial.print("\n");
+        Serial.print(accel_float.x, 6); Serial.print(", ");
+        Serial.print(accel_float.y, 6); Serial.print(", ");
+        Serial.print(accel_float.z, 6);
     }
 
     ~MPU6050(){Wire.endTransmission(true);};
