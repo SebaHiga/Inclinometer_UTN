@@ -8,7 +8,7 @@ private:
     const int MPU_addr=0x68;
     
     template<typename T>
-    struct rawVect_t{
+    struct vect_t{
         union{
             struct{
                 T xyz[3];
@@ -22,15 +22,42 @@ private:
         void operator= (const P vec){
             int i = 0;
             for(auto &val : xyz){
-                val = vec[i];
+                val = (T) vec[i];
                 i++;
             }
         }
+
+        T operator[] (size_t index) const {
+            return xyz[index];
+        }
+
+        template<typename P>
+        void operator/= (const P num){
+            int i = 0;
+            for(auto &val : xyz){
+                val = (T) (val / num);
+                i++;
+            }
+        }
+
+        template<typename P>
+        void operator*= (const P num){
+            int i = 0;
+            for(auto &val : xyz){
+                val = (T) (val * num);
+                i++;
+            }
+        }
+
+        float getModule (){
+            return sqrt(x*x + y*y + z*z);
+        }
+
     };
 
     // define vectors
-    rawVect_t<int16_t> accel;
-    rawVect_t<int16_t> gyro;
+    vect_t<int16_t> accel;
+    vect_t<int16_t> gyro;
 
 public:
     void begin(){
