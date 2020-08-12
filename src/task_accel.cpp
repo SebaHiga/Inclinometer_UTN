@@ -10,9 +10,9 @@ void TaskAccel(void *pvParameters){
 
     while (1){
         mpu.read();
-        Serial.println(mpu.getFormated());
+        mpu.printFormatted();
 
-        delay(200);
+        delay(20);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
