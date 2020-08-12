@@ -1,6 +1,4 @@
-#include <Arduino.h>
-#include <Wire.h>
-#include <MPU6050.hpp>
+#include <main.hpp>
 
 MPU6050 accelGyro;
 
