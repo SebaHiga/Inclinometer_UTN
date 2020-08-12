@@ -1,7 +1,7 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Wire.h>
-
-#pragma once
 
 class MPU6050{
 private:
