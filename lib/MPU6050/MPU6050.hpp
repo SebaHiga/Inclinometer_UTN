@@ -7,29 +7,30 @@ class MPU6050{
 private:
     const int MPU_addr=0x68;
     
-    typedef struct _rawVect_t{
+    template<typename T>
+    struct rawVect_t{
         union{
             struct{
-                int16_t xyz[3];
+                T xyz[3];
             };
             struct{
-                int16_t x, y, z;
+                T x, y, z;
             };
         };
 
-        template<typename T>
-        void operator= (const T vec){
+        template<typename P>
+        void operator= (const P vec){
             int i = 0;
             for(auto &val : xyz){
                 val = vec[i];
                 i++;
             }
         }
-    }rawVect_t;
+    };
 
     // define vectors
-    rawVect_t accel;
-    rawVect_t gyro;
+    rawVect_t<int16_t> accel;
+    rawVect_t<int16_t> gyro;
 
 public:
     void begin(){
