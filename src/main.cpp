@@ -12,6 +12,16 @@ void setup() {
 				0,
 				NULL );
 
+	xTaskCreate(TaskButtons,
+				"Buttons",
+				256,
+				NULL, 
+				0,
+				NULL );
 }
 
-void loop() {}
+
+
+void loop() {
+	delay(1000);
+}
