@@ -1,26 +1,16 @@
 #include <task_accel.hpp>
 
-static MPU6050 mpu;
+MPU6050 mpu;
 
 void TaskAccel(void *pvParameters){
     (void) pvParameters;
 
-
     mpu.begin();
-
-    
-    xTaskCreate(mpu.task_read,
-        "Read MPU constantly",
-        126,
-        NULL, 
-        1,
-        NULL );
 
     while (1){
         xSemaphoreTake(xSemaphore_Button1, portMAX_DELAY);
-        mpu.read();
         mpu.printFormatted();
-        vTaskDelay(1);
+        vTaskDelay(100/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
@@ -31,3 +21,4 @@ void TaskAccel(void *pvParameters){
         #endif
     }
 }
+

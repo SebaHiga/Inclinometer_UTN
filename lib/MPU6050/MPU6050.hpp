@@ -14,6 +14,8 @@ private:
     static vect_t<int16_t> accel;
     static vect_t<int16_t> gyro;
 
+    static bool connected;
+
 public:
     void begin(){
         Wire.begin();
@@ -21,6 +23,7 @@ public:
         Wire.write(0x6B); // PWR_MGMT_1 register
         Wire.write(0); // set to zero (wakes up the MPU-6050)
         Wire.endTransmission(true);
+        connected = true;
     }
 
     static void task_read(void *pvParameters);
