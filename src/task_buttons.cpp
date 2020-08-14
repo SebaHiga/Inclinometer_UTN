@@ -10,10 +10,9 @@ void TaskButtons(void *pvParameters){
 
     while (1){
         if(digitalRead(BUTTON_1)){
-            Serial.println("Button pressed");
+            xSemaphoreGive(xSemaphore_Button1);
         }
-
-        delay(250);
+        vTaskDelay(10);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
