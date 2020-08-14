@@ -9,14 +9,21 @@ void setup() {
 				"Accel",
 				256,
 				NULL, 
-				1,
+				0,
 				NULL );
 
 	xTaskCreate(TaskButtons,
 				"Buttons",
-				256,
+				128,
 				NULL, 
-				2,
+				3,
+				NULL );
+
+	xTaskCreate(TaskLCD,
+				"LCD",
+				128,
+				NULL, 
+				1,
 				NULL );
 }
 
