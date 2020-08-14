@@ -12,7 +12,7 @@ void TaskButtons(void *pvParameters){
         if(digitalRead(BUTTON_1)){
             xSemaphoreGive(xSemaphore_Button1);
         }
-        vTaskDelay(100/portTICK_PERIOD_MS);
+        vTaskDelay(500/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;

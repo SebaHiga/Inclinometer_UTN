@@ -10,7 +10,7 @@ void TaskLCD(void *pvParameters){
     lcd.print(F("Hola Meli <3"));
 
     while(1){
-        vTaskDelay(200/portTICK_PERIOD_MS);
+        vTaskDelay(500/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
