@@ -2,34 +2,17 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <vector.hpp>
 
 class MPU6050{
 private:
-    const int MPU_addr=0x68;
+    static const int MPU_addr;
+    static const int16_t LSB_g;
+    static const int read_delay;
     
-    typedef struct _rawVect_t{
-        union{
-            struct{
-                int16_t xyz[3];
-            };
-            struct{
-                int16_t x, y, z;
-            };
-        };
-
-        template<typename T>
-        void operator= (const T vec){
-            int i = 0;
-            for(auto &val : xyz){
-                val = vec[i];
-                i++;
-            }
-        }
-    }rawVect_t;
-
     // define vectors
-    rawVect_t accel;
-    rawVect_t gyro;
+    static vect_t<int16_t> accel;
+    static vect_t<int16_t> gyro;
 
 public:
     void begin(){
@@ -40,40 +23,13 @@ public:
         Wire.endTransmission(true);
     }
 
-    void read(){
-        Wire.beginTransmission(MPU_addr);
-        Wire.write(0x3B); // starting with register 0x3B (ACCEL_XOUT_H)
-        Wire.endTransmission(false);
-        Wire.requestFrom(MPU_addr,14,1); // request a total of 14 registers
+    static void task_read(void *pvParameters);
 
-        int16_t data_raw[14];
-        int16_t data[7];
+    static void read();
 
-        for(auto &val : data_raw){
-            val = Wire.read();
-        }
+    static String getFormatted();
 
-        int i = 0;
-        for(auto &val : data){
-            val = data_raw[i] << 8 | data_raw[i + 1];
-            i += 2;
-        }
-
-        accel = data;
-        gyro = data + 4;
-
-        Wire.endTransmission(true);
-    };
-
-    inline String getFormated(){
-        String ret;
-
-        ret += accel.x;
-        ret += "\t" + String(accel.y);
-        ret += "\t" + String(accel.z);
-
-        return ret;
-    }
+    static void printFormatted(void);
 
     ~MPU6050(){Wire.endTransmission(true);};
 };
