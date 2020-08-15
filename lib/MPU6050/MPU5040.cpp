@@ -1,12 +1,16 @@
 #include <MPU6050.hpp>
+#include <Arduino_FreeRTOS.h>
 
 const int MPU6050::MPU_addr=0x68;
 const int16_t MPU6050::LSB_g = 16384;
-const int MPU6050::read_delay = 200;
+const int MPU6050::read_delay = 500;
+
 
 // define vectors
 vect_t<int16_t> MPU6050::accel;
 vect_t<int16_t> MPU6050::gyro;
+
+bool MPU6050::connected = false;
 
 void MPU6050::read(){
     Wire.beginTransmission(MPU_addr);
@@ -34,10 +38,21 @@ void MPU6050::read(){
 };
 
 void  MPU6050::task_read(void *pvParameters){
+    while(!connected){
+        delay(1000/portTICK_PERIOD_MS);
+    }
+
     while(1){
         read();
-        printFormatted();
-        delay(read_delay);
+        delay(read_delay/portTICK_PERIOD_MS);
+
+        #ifdef FREERTOS_STACKDEBUG
+        UBaseType_t uxHighWaterMark;
+        /* Inspect our own high water mark on entering the task. */
+        uxHighWaterMark = uxTaskGetStackHighWaterMark( NULL );
+        Serial.print("\nFree stack - Task Read accel: ");
+        Serial.println(uxHighWaterMark);
+        #endif
     }
 }
 

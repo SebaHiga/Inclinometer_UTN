@@ -1,25 +1,24 @@
-#include <task_buttons.hpp>
+#include <task_lcd.hpp>
 
-void TaskButtons(void *pvParameters){
+LiquidCrystal_I2C lcd(PCF8574_ADDR_A21_A11_A01, 4, 5, 6, 16, 11, 12, 13, 14, POSITIVE);
+
+void TaskLCD(void *pvParameters){
     (void) pvParameters;
 
-    pinMode(BUTTON_1, INPUT);
-    pinMode(BUTTON_2, INPUT);
-    pinMode(BUTTON_3, INPUT);
+    lcd.begin(COLUMS, ROWS);
 
+    lcd.print(F("Hola Meli <3"));
 
-    while (1){
-        if(digitalRead(BUTTON_1)){
-            xSemaphoreGive(xSemaphore_Button1);
-        }
+    while(1){
         vTaskDelay(500/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
         /* Inspect our own high water mark on entering the task. */
         uxHighWaterMark = uxTaskGetStackHighWaterMark( NULL );
-        Serial.print("\nFree stack - Task Buttons: ");
+        Serial.print("\nFree stack - Task LCD: ");
         Serial.println(uxHighWaterMark);
         #endif
     }
 }
+
