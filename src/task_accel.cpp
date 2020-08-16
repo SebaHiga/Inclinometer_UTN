@@ -9,7 +9,7 @@ void TaskAccel(void *pvParameters){
 
     while (1){
         xSemaphoreTake(xSemaphore_Button1, portMAX_DELAY);
-        mpu.printFormatted();
+        Serial.println(mpu.getFormatted());
         vTaskDelay(100/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG

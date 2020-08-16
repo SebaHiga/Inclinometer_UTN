@@ -3,7 +3,7 @@
 
 const int MPU6050::MPU_addr=0x68;
 const int16_t MPU6050::LSB_g = 16384;
-const int MPU6050::read_delay = 500;
+const int MPU6050::read_delay = 10;
 
 
 // define vectors
@@ -44,7 +44,8 @@ void  MPU6050::task_read(void *pvParameters){
 
     while(1){
         read();
-        delay(read_delay/portTICK_PERIOD_MS);
+        Serial.println(getFormatted());
+        vTaskDelay(read_delay/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
@@ -59,15 +60,9 @@ void  MPU6050::task_read(void *pvParameters){
 String MPU6050::getFormatted(){
     String ret;
 
-    vect_t<float> accel_float;
-
-    accel_float = accel;
-    accel_float /= LSB_g;
-    accel_float *= 10;
-
-    ret += accel_float.x;
-    ret += "\t" + String(accel_float.y);
-    ret += "\t" + String(accel_float.z);
+    ret += accel.x;
+    ret += "," + String(accel.y);
+    ret += "," + String(accel.z);
 
     return ret;
 }

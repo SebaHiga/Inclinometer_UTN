@@ -14,7 +14,7 @@ void setup() {
 
 	xTaskCreate(MPU6050::task_read,
 				"Read Accel",
-				128,
+				256,
 				NULL, 
 				0,
 				NULL );
