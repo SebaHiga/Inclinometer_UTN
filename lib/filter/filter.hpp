@@ -28,6 +28,14 @@ struct Array{
 
     size_t size(){return N;}
 
+    void print(){
+        for(auto n : arr){
+            Serial.print(n);
+            Serial.print(" ");
+        }
+        Serial.println("");
+    }
+
     template<typename J>
     void operator=(J data){
         for(size_t i = 0; i < N and i < data.size(); i++){
@@ -37,11 +45,12 @@ struct Array{
 
     template<typename J>
     Array operator*(J data){
+        Array<T, N> tmp;
         for(size_t i = 0; i < N and i < data.size(); i++){
-            arr[i] *= data[i];
+            tmp.arr[i] = (T) ((float)arr[i] * (float)data[i]);
         }
 
-        return *this;
+        return tmp;
     }
 
     T operator[] (size_t i){return arr[i];}
@@ -69,7 +78,6 @@ private:
 
     farray_t b;
     farray_short_t a;
-
 };
 
 
@@ -82,7 +90,6 @@ void Filter<T, N>::setCoefficients(farray_t _b, farray_short_t _a){
 template<typename T, size_t N>
 T Filter<T, N>::process(T data){
     T filtered;
-
     array_t bx;
     array_short_t ay;
 
@@ -94,7 +101,7 @@ T Filter<T, N>::process(T data){
     ay = a * y;
 
     filtered = bx.sum() - ay.sum();
-
+    
     x.push_front(data);
     y.push_front(filtered);
 
