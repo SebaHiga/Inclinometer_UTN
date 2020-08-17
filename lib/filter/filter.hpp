@@ -6,6 +6,11 @@ template<typename T, size_t N>
 struct Array{
     T arr[N] = {0};
 
+    Array() = default;
+    Array(T *vec){
+        for(size_t i = 0; i < N; i++) arr[i] = vec[i];
+    }
+
     T sum(){
         T total = 0;
         for(auto n : arr){
@@ -49,10 +54,11 @@ struct Array{
 template<typename T, size_t N>
 class Filter{
 public:
-    using array_t = Array<T, N>;
-    using array_short_t = Array<T, N-1>;
-    using farray_t = Array<float, N>;
-    using farray_short_t = Array<float, N-1>;
+    using array_t = Array<T, N+1>;
+    using array_short_t = Array<T, N>;
+    
+    using farray_t = Array<float, N+1>;
+    using farray_short_t = Array<float, N>;
 
     void setCoefficients(farray_t _b, farray_short_t _a);
     T process(T data);
