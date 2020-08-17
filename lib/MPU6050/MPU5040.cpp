@@ -10,6 +10,9 @@ const int MPU6050::read_delay = 10;
 vect_t<int16_t> MPU6050::accel;
 vect_t<int16_t> MPU6050::gyro;
 
+Filter<int16_t, 3> MPU6050::filter;
+
+
 bool MPU6050::connected = false;
 
 void MPU6050::read(){
@@ -44,7 +47,7 @@ void  MPU6050::task_read(void *pvParameters){
 
     while(1){
         read();
-        Serial.println(getFormatted());
+        Serial.println(filter.process(accel.x));
         vTaskDelay(read_delay/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
