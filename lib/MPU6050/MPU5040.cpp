@@ -10,7 +10,7 @@ const int MPU6050::read_delay = 10;
 vect_t<int16_t> MPU6050::accel;
 vect_t<int16_t> MPU6050::gyro;
 
-Filter<int16_t, 3> MPU6050::filter;
+Filter<int16_t, 2> MPU6050::filter;
 
 
 bool MPU6050::connected = false;

@@ -15,7 +15,7 @@ private:
     static vect_t<int16_t> accel;
     static vect_t<int16_t> gyro;
 
-    static Filter<int16_t, 3> filter;
+    static Filter<int16_t, 2> filter;
 
     static bool connected;
 
@@ -28,8 +28,8 @@ public:
         Wire.endTransmission(true);
         connected = true;
 
-        float b[] = {0.00069935, 0.00209805, 0.00209805, 0.00069935};
-        float a[] = {-2.62355181,  2.31468258, -0.6855359};
+        float b[] = {0.00782021, 0.01564042, 0.00782021};
+        float a[] = {-1.73472577,  0.7660066};
 
         filter.setCoefficients(b, a);
     }
