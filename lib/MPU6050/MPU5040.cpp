@@ -47,7 +47,7 @@ void  MPU6050::task_read(void *pvParameters){
 
     while(1){
         read();
-        Serial.println(filter.process(accel.x));
+        Serial.println(filter.process(accel.y));
         vTaskDelay(read_delay/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
