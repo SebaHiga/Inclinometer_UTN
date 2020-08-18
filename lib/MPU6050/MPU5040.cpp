@@ -8,7 +8,7 @@ const int MPU6050::read_delay = 10;
 
 // define vectors
 vect_t<int16_t> MPU6050::accel;
-vect_t<int16_t> MPU6050::accel_filtered;
+vect_t<int16_t> accel_filtered;
 vect_t<int16_t> MPU6050::gyro;
 
 Filter<int16_t, 2> MPU6050::filter_x;
