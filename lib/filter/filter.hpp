@@ -69,7 +69,7 @@ public:
     using farray_t = Array<float, N+1>;
     using farray_short_t = Array<float, N>;
 
-    void setCoefficients(farray_t _b, farray_short_t _a);
+    void setCoefficients(float *_b, float *_a);
     T process(T data);
    
 private:
@@ -82,9 +82,12 @@ private:
 
 
 template<typename T, size_t N>
-void Filter<T, N>::setCoefficients(farray_t _b, farray_short_t _a){
-    b = _b;
-    a = _a;
+void Filter<T, N>::setCoefficients(float *_b, float *_a){
+    farray_t tmp_b(_b);
+    farray_short_t tmp_a(_a);
+
+    b = tmp_b;
+    a = tmp_a;
 }
 
 template<typename T, size_t N>

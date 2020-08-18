@@ -30,9 +30,8 @@ public:
 
         float b[] = {0.00069935, 0.00209805, 0.00209805, 0.00069935};
         float a[] = {-2.62355181,  2.31468258, -0.6855359};
-        Array<float, 4> array_b(b);
-        Array<float, 3> array_a(a);
-        filter.setCoefficients(array_b, array_a);
+
+        filter.setCoefficients(b, a);
     }
 
     static void task_read(void *pvParameters);
