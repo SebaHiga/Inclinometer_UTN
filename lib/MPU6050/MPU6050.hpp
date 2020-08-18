@@ -13,9 +13,12 @@ private:
     
     // define vectors
     static vect_t<int16_t> accel;
+    static vect_t<int16_t> accel_filtered;
     static vect_t<int16_t> gyro;
 
-    static Filter<int16_t, 2> filter;
+    static Filter<int16_t, 2> filter_x;
+    static Filter<int16_t, 2> filter_y;
+    static Filter<int16_t, 2> filter_z;
 
     static bool connected;
 
@@ -31,7 +34,10 @@ public:
         float b[] = {0.00782021, 0.01564042, 0.00782021};
         float a[] = {-1.73472577,  0.7660066};
 
-        filter.setCoefficients(b, a);
+        filter_x.setCoefficients(b, a);
+        filter_y.setCoefficients(b, a);
+        filter_z.setCoefficients(b, a);
+
     }
 
     static void task_read(void *pvParameters);

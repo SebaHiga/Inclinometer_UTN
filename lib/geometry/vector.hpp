@@ -46,4 +46,12 @@ struct vect_t{
         return sqrt(x*x + y*y + z*z);
     }
 
+    void print(){
+        for(auto val : xyz){
+            Serial.print(val);
+            Serial.print(" ");
+        }
+        Serial.println();
+    }
+
 };
