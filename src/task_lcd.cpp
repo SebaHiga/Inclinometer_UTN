@@ -2,7 +2,7 @@
 
 LiquidCrystal_I2C lcd(PCF8574_ADDR_A21_A11_A01, 4, 5, 6, 16, 11, 12, 13, 14, POSITIVE);
 
-extern vect_t<int16_t> accel_filtered;
+extern vect_t<float> accel_filtered;
 
 void TaskLCD(void *pvParameters){
     (void) pvParameters;
