@@ -1,14 +1,18 @@
 #pragma once
 
 #include <Arduino.h>
+#include <range.hpp>
+
+using namespace std;
 
 template<typename T, size_t N>
 struct Array{
+
     T arr[N] = {0};
 
     Array() = default;
     Array(T *vec){
-        for(size_t i = 0; i < N; i++) arr[i] = vec[i];
+        for(auto index : range<int>(N)) arr[index] = vec[index];
     }
 
     T sum(){
@@ -20,8 +24,8 @@ struct Array{
     }
 
     void push_front (T data){
-        for(size_t i = N-1; i > 0; i--){
-            arr[i] = arr[i-1];
+        for(auto index : range<int>(N, 1)){
+            arr[index] = arr[index-1];
         }
         arr[0] = data;
     }
