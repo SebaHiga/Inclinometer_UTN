@@ -8,12 +8,12 @@ const int MPU6050::read_delay = 10;
 
 // define vectors
 vect_t<int16_t> MPU6050::accel;
-vect_t<int16_t> MPU6050::accel_filtered;
+vect_t<float> accel_filtered;
 vect_t<int16_t> MPU6050::gyro;
 
-Filter<int16_t, 2> MPU6050::filter_x;
-Filter<int16_t, 2> MPU6050::filter_y;
-Filter<int16_t, 2> MPU6050::filter_z;
+Filter<float, 2> MPU6050::filter_x;
+Filter<float, 2> MPU6050::filter_y;
+Filter<float, 2> MPU6050::filter_z;
 
 bool MPU6050::connected = false;
 
@@ -54,7 +54,8 @@ void  MPU6050::task_read(void *pvParameters){
         accel_filtered.y = filter_y.process(accel.y);
         accel_filtered.z = filter_z.process(accel.z);
 
-        accel_filtered.print();
+        Serial.println(accel_filtered.x);
+        // accel_filtered.print();
         vTaskDelay(read_delay/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG

@@ -5,6 +5,8 @@
 #include <vector.hpp>
 #include <filter.hpp>
 
+extern vect_t<float> accel_filtered;
+
 class MPU6050{
 private:
     static const int MPU_addr;
@@ -13,12 +15,11 @@ private:
     
     // define vectors
     static vect_t<int16_t> accel;
-    static vect_t<int16_t> accel_filtered;
     static vect_t<int16_t> gyro;
 
-    static Filter<int16_t, 2> filter_x;
-    static Filter<int16_t, 2> filter_y;
-    static Filter<int16_t, 2> filter_z;
+    static Filter<float, 2> filter_x;
+    static Filter<float, 2> filter_y;
+    static Filter<float, 2> filter_z;
 
     static bool connected;
 
