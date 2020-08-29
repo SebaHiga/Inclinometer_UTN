@@ -1,11 +1,20 @@
 #pragma once
 
 namespace std{
+
 template<typename T>
 class range{
 public:
-    range(int _start, int _finish) : start(_start), finish(_finish) {};
-    range(int _finish) : start(0), finish(_finish) {};
+    range(T _start, T _finish) : start(_start), finish(_finish) {
+        if (finish < start){
+            finish--;
+        }
+    };
+    range(T _finish) : start(0), finish(_finish) {
+        if (finish < start){
+            start = 1;
+        }
+    };
 
     struct Iterator {
         T _p;
@@ -13,10 +22,8 @@ public:
 
         Iterator(T p) : _p(p) {};
         void setReverse() {forward = false;}
-        T& operator*() { return _p; }
-        bool operator != (const Iterator& rhs) {
-            return _p != rhs._p;
-        }
+        T& operator*() {return _p;}
+        bool operator != (const Iterator& rhs) {return _p != rhs._p;}
         void operator ++() {forward ? _p++ : _p--;}
     };
 
@@ -30,14 +37,13 @@ public:
     }
 
     Iterator end() const {
-        start > finish ? finish-- : finish;
         Iterator it(finish);
         return it;
     }
 
 private:
-    mutable int start;
-    mutable int finish;
+    T start;
+    T finish;
 };
 
 };
