@@ -2,14 +2,24 @@
 
 MPU6050 mpu;
 
+float angle;
+
 void TaskAccel(void *pvParameters){
     (void) pvParameters;
 
     mpu.begin();
 
     while (1){
-        xSemaphoreTake(xSemaphore_Button1, portMAX_DELAY);
-        Serial.println(mpu.getFormatted());
+
+        auto x = accel_filtered.x;
+        auto z = accel_filtered.z;
+
+        auto lambda = ((asin(x/sqrt(x*x + z*z)))*180) / M_PI;
+
+        angle = 1.1984868 * lambda - 0.371939;
+
+        Serial.println(angle, 2);
+
         vTaskDelay(100/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG

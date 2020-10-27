@@ -54,8 +54,12 @@ void  MPU6050::task_read(void *pvParameters){
         accel_filtered.y = filter_y.process(accel.y);
         accel_filtered.z = filter_z.process(accel.z);
 
-        Serial.println(accel_filtered.x);
+        // Serial.println(accel_filtered.x);
         // accel_filtered.print();
+        accel_filtered.calcPolar();
+        // Serial.println(getFormatted());
+
+
         vTaskDelay(read_delay/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
@@ -71,9 +75,14 @@ void  MPU6050::task_read(void *pvParameters){
 String MPU6050::getFormatted(){
     String ret;
 
-    ret += accel.x;
-    ret += "," + String(accel.y);
-    ret += "," + String(accel.z);
+    ret += accel_filtered.x;
+    ret += "," + String(accel_filtered.y);
+    ret += "," + String(accel_filtered.z);
+
+    ret += "\t\t\t|\t";
+
+    ret += String(accel_filtered.theta);
+    ret += "," + String(accel_filtered.phi);
 
     return ret;
 }

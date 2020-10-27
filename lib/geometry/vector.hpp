@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 template<typename T>
 struct vect_t{
     union{
@@ -11,6 +13,15 @@ struct vect_t{
         };
     };
 
+    float theta, phi;
+    T r;
+
+    inline void calcPolar(){
+        r = getModule();
+        theta = acos(z / r);
+        phi = acos(x / (r * sin(theta)));
+    }
+
     template<typename P>
     void operator= (const P vec){
         int i = 0;
@@ -18,6 +29,7 @@ struct vect_t{
             val = (T) vec[i];
             i++;
         }
+        calcPolar();
     }
 
     T operator[] (size_t index) const {
@@ -31,6 +43,7 @@ struct vect_t{
             val = (T) (val / num);
             i++;
         }
+        calcPolar();
     }
 
     template<typename P>
@@ -40,6 +53,7 @@ struct vect_t{
             val = (T) (val * num);
             i++;
         }
+        calcPolar();
     }
 
     float getModule (){

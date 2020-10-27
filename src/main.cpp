@@ -19,12 +19,12 @@ void setup() {
 				0,
 				NULL );
 
-	xTaskCreate(TaskButtons,
-				"Buttons",
-				86,
-				NULL, 
-				3,
-				NULL );
+	// xTaskCreate(TaskButtons,
+	// 			"Buttons",
+	// 			86,
+	// 			NULL, 
+	// 			3,
+	// 			NULL );
 
 	xTaskCreate(TaskLCD,
 				"LCD",
