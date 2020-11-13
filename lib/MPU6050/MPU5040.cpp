@@ -3,12 +3,12 @@
 
 const int MPU6050::MPU_addr=0x68;
 const int16_t MPU6050::LSB_g = 16384;
-const int MPU6050::read_delay = 10;
+const int MPU6050::read_delay = 100;
 
 
 // define vectors
 vect_t<int16_t> MPU6050::accel;
-vect_t<float> accel_filtered;
+vect_t<float> MPU6050::accel_filtered;
 vect_t<int16_t> MPU6050::gyro;
 
 Filter<float, 2> MPU6050::filter_x;
@@ -44,6 +44,7 @@ void MPU6050::read(){
 
 void  MPU6050::task_read(void *pvParameters){
     while(!connected){
+        begin();
         delay(1000/portTICK_PERIOD_MS);
     }
 
@@ -54,11 +55,7 @@ void  MPU6050::task_read(void *pvParameters){
         accel_filtered.y = filter_y.process(accel.y);
         accel_filtered.z = filter_z.process(accel.z);
 
-        // Serial.println(accel_filtered.x);
-        // accel_filtered.print();
         accel_filtered.calcPolar();
-        // Serial.println(getFormatted());
-
 
         vTaskDelay(read_delay/portTICK_PERIOD_MS);
 

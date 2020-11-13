@@ -1,4 +1,5 @@
 #include <task_buttons.hpp>
+#include <global.hpp>
 
 void TaskButtons(void *pvParameters){
     (void) pvParameters;
@@ -9,8 +10,11 @@ void TaskButtons(void *pvParameters){
 
 
     while (1){
-        if(digitalRead(BUTTON_1)){
-            xSemaphoreGive(xSemaphore_Button1);
+        if (digitalRead(BUTTON_2)) {
+            Global::buttonOffset = true;
+        }
+        else {
+            Global::buttonOffset = false;
         }
         vTaskDelay(500/portTICK_PERIOD_MS);
 

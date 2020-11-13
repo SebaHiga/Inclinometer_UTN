@@ -5,7 +5,7 @@
 #include <LiquidCrystal_I2C.h>
 #include <MPU6050.hpp>
 
-void TaskLCD(void *pvParameters);
+void TaskLCD();
 
 #define COLUMS 16
 #define ROWS   2

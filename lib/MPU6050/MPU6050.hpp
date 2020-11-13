@@ -5,8 +5,6 @@
 #include <vector.hpp>
 #include <filter.hpp>
 
-extern vect_t<float> accel_filtered;
-
 class MPU6050{
 private:
     static const int MPU_addr;
@@ -23,8 +21,10 @@ private:
 
     static bool connected;
 
+    static vect_t<float> accel_filtered;
+
 public:
-    void begin(){
+    static void begin(){
         Wire.begin();
         Wire.beginTransmission(MPU_addr);
         Wire.write(0x6B); // PWR_MGMT_1 register
@@ -44,6 +44,8 @@ public:
     static void task_read(void *pvParameters);
 
     static void read();
+
+    static vect_t<float> getAccel(void) {return accel_filtered;}
 
     static String getFormatted();
 
