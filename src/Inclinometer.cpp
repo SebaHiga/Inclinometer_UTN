@@ -15,15 +15,17 @@ void Inclinometer::run(void *pvParameters){
 
         auto lambda = ((asin(x/sqrt(x*x + z*z)))*180) / M_PI;
 
-        Global::angle = lambda - Global::offset;
+        Global::angle = lambda * 1.1984868395599182-0.37193951653249635;
 
         if (Global::buttonOffset) {
-            Global::offset = lambda;
+            Global::offset = Global::angle;
         }
+
+        Global::angle -= Global::offset;
 
         // Serial.println(lambda, 2);
 
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        vTaskDelay(500/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;
