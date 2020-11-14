@@ -2,18 +2,32 @@
 #include <Arduino_FreeRTOS.h>
 #include <queue.h>
 #include <global.hpp>
+#include <vector.hpp>
 
 MPU6050 Inclinometer::mpu;
 
 void Inclinometer::run(void *pvParameters){
     (void) pvParameters;
 
+    using Module = vect_t<float>::Module;
+
     while (1){
         auto accel = mpu.getAccel();
+        auto moduleXZ = accel.getModule(Module::xz);
+        auto moduleYZ = accel.getModule(Module::yz);
         auto x = accel.x;
+        auto y = accel.y;
         auto z = accel.z;
 
-        auto lambda = ((asin(x/sqrt(x*x + z*z)))*180) / M_PI;
+        double lambda;
+        
+        if (moduleXZ > moduleYZ) {
+            lambda = ((atan(x / z))*180) / M_PI;
+        }
+        else {
+            lambda = ((atan(y / z))*180) / M_PI;
+        }
+
 
         Global::angle = lambda * 1.1984868395599182-0.37193951653249635;
 
@@ -25,7 +39,7 @@ void Inclinometer::run(void *pvParameters){
 
         // Serial.println(lambda, 2);
 
-        vTaskDelay(500/portTICK_PERIOD_MS);
+        vTaskDelay(250/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;

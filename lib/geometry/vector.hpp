@@ -4,6 +4,12 @@
 
 template<typename T>
 struct vect_t{
+    enum Module {
+        xy = 0,
+        xz,
+        yz
+    };
+
     union{
         struct{
             T xyz[3];
@@ -58,6 +64,17 @@ struct vect_t{
 
     float getModule (){
         return sqrt(x*x + y*y + z*z);
+    }
+
+    float getModule(Module m){
+        switch (m){
+        case Module::xy:
+            return sqrt(x*x + y*y);
+        case Module::xz:
+            return sqrt(x*x + z*z);
+        case Module::yz:
+            return sqrt(y*y + z*z);
+        }
     }
 
     void print(){
