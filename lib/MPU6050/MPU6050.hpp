@@ -32,8 +32,8 @@ public:
         Wire.endTransmission(true);
         connected = true;
 
-        float b[] = {0.00782021, 0.01564042, 0.00782021};
-        float a[] = {-1.73472577,  0.7660066};
+        float b[] = {0.06745527, 0.13491055, 0.06745527};
+        float a[] = {-1.1429805,  0.4128016};
 
         filter_x.setCoefficients(b, a);
         filter_y.setCoefficients(b, a);
