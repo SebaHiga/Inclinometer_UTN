@@ -1,8 +1,6 @@
 #include <main.hpp>
 #include <Inclinometer.hpp>
 
-extern MPU6050 mpu;
-
 void setup() {
 	Serial.begin(115200);
 

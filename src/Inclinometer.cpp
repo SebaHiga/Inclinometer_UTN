@@ -39,7 +39,7 @@ void Inclinometer::run(void *pvParameters){
 
         // Serial.println(lambda, 2);
 
-        vTaskDelay(250/portTICK_PERIOD_MS);
+        vTaskDelay(200/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG
         UBaseType_t uxHighWaterMark;

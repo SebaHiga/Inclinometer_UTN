@@ -3,7 +3,7 @@
 
 const int MPU6050::MPU_addr=0x68;
 const int16_t MPU6050::LSB_g = 16384;
-const int MPU6050::read_delay = 100;
+const int MPU6050::read_delay = 50;
 
 
 // define vectors

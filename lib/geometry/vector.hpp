@@ -75,6 +75,7 @@ struct vect_t{
         case Module::yz:
             return sqrt(y*y + z*z);
         }
+        return 0;
     }
 
     void print(){

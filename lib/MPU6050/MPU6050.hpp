@@ -53,3 +53,5 @@ public:
 
     ~MPU6050(){Wire.endTransmission(true);};
 };
+
+extern MPU6050 mpu;
