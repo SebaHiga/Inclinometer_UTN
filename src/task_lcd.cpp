@@ -31,7 +31,9 @@ void TaskLCD(){
             angle = Global::angle > 0 ? ceil(Global::angle) : floor(Global::angle);
         }
 
-        int bubbleIndex = 7 + ((float)7/90) * angle;
+        int bubbleIndex = 7 + ((7*angle)/45);
+
+        bubbleIndex = bubbleIndex < 1 ? 1 : (bubbleIndex > 13 ? 13 : bubbleIndex);
 
         row2[bubbleIndex] = '(';
         row2[bubbleIndex+1] = ')';
