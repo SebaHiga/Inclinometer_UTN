@@ -69,7 +69,7 @@ void TaskLCD(){
         memset(row1, ' ', 16);
         strcpy(row2, BUBBLE_BASE);
 
-        auto angle = ceil(Global::angle);
+        auto angle = Global::angle > 0 ? ceil(Global::angle) : floor(Global::angle);
 
         int bubbleIndex = 7 + ((float)7/90) * angle;
 

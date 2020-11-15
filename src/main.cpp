@@ -1,7 +1,6 @@
 #include <main.hpp>
 #include <Inclinometer.hpp>
 
-extern LiquidCrystal_I2C lcd;
 extern MPU6050 mpu;
 
 void setup() {
