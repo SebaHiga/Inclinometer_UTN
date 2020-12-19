@@ -2,6 +2,8 @@
 #include <global.hpp>
 #include <LiquidCrystal_I2C.h>
 #include <stdlib.h>
+#include <math.h>
+#include <stdio.h>
 // LiquidCrystal_I2C lcd(PCF8574_ADDR_A21_A11_A01, 4, 5, 6, 16, 11, 12, 13, 14, POSITIVE);
 
 extern vect_t<float> accel_filtered;
@@ -22,6 +24,7 @@ void TaskLCD(){
         memset(row1, ' ', 16);
         strcpy(row2, BUBBLE_BASE);
 
+        xSemaphoreTake(Global::mutex_angle, portMAX_DELAY); // Take global mutex for angle
         int angle;
         
         if (Global::angle < 0.5 and Global::angle > -0.5) {
@@ -31,7 +34,7 @@ void TaskLCD(){
             angle = Global::angle > 0 ? ceil(Global::angle) : floor(Global::angle);
         }
 
-        int bubbleIndex = 7 + ((7*angle)/45);
+        int bubbleIndex = 7 + ((7*Global::angle)/45);
 
         bubbleIndex = bubbleIndex < 1 ? 1 : (bubbleIndex > 13 ? 13 : bubbleIndex);
 
@@ -40,19 +43,24 @@ void TaskLCD(){
 
         offset = angle >= 0 ? 1 : 0;
 
-        itoa(angle, row1+6+offset, 10);
+        int decimals = (abs(angle) - abs((int) angle))*100;
+
+        sprintf(row1+6+offset, "%d,%d", (int) angle, decimals);
+
+        Serial.println(row1);
+
         strcat(row1, " deg");
 
         if (angle > 90 or angle < -90) {
             strcpy(row1, "       Err      ");
         }
-
+        xSemaphoreGive(Global::mutex_angle);
         // lcd.clear();
         // Serial.println(angle);
         // lcd.print((float) angle);
         lcd.printDiff(LCD::Line::First, row1);
         lcd.printDiff(LCD::Line::Second, row2);
-        delay(10);
+        delay(250);
         // vTaskDelay(500/portTICK_PERIOD_MS);
 
         #ifdef FREERTOS_STACKDEBUG

@@ -6,6 +6,15 @@
 
 MPU6050 Inclinometer::mpu;
 
+#ifdef  USE_CALIB
+#define CALIB_M 1.1720317182464612
+#define CALIB_B 0.3465827055797216
+
+#else
+#define CALIB_M 1
+#define CALIB_B 0
+#endif
+
 void Inclinometer::run(void *pvParameters){
     (void) pvParameters;
 
@@ -28,15 +37,15 @@ void Inclinometer::run(void *pvParameters){
             lambda = ((atan(y / z))*180) / M_PI;
         }
 
-
-        Global::angle = lambda * 1.1984868395599182-0.37193951653249635;
+        xSemaphoreTake(Global::mutex_angle, portMAX_DELAY); // Take global mutex for angle
+        Global::angle = lambda * CALIB_M - CALIB_B;
 
         if (Global::buttonOffset) {
             Global::offset = Global::angle;
         }
 
         Global::angle -= Global::offset;
-
+        xSemaphoreGive(Global::mutex_angle);
         // Serial.println(lambda, 2);
 
         vTaskDelay(200/portTICK_PERIOD_MS);

@@ -1,9 +1,13 @@
 #include <main.hpp>
 #include <Inclinometer.hpp>
+#include <global.hpp>
 
 void setup() {
 	Serial.begin(115200);
 
+	Global::mutex_angle = xSemaphoreCreateMutex();
+	xSemaphoreGive(Global::mutex_angle);
+	
 	lcd.begin();
 	
 	mpu.begin();
